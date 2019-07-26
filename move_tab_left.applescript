@@ -14,26 +14,20 @@
 
 -- Be warned that the tabs reload each time you move them...
 
-tell application "Safari" to tell front window
-	set currentindex to index of current tab
-	set totalTabs to number of tabs
-	if currentindex is equal to totalTabs then
-		move tab currentindex to tab 1
-		set current tab to tab 1
-	else
-		move tab currentindex to after tab (currentindex + 1)
-		set current tab to tab (currentindex + 1)
-	end if
-end tell
 
-tell application "Safari" to tell front window
-	set currentindex to index of current tab
-	set totalTabs to number of tabs
-	if currentindex is equal to 1 then
-		move tab currentindex to tab totalTabs
-		set current tab to tab totalTabs
-	else
-		move tab currentindex to before tab (currentindex - 1)
-		set current tab to tab (currentindex - 1)
+tell application "System Events"
+	set activeApp to name of first application process whose frontmost is true
+	if "Safari" is in activeApp then
+		tell application "Safari" to tell front window
+			set currentindex to index of current tab
+			set totalTabs to number of tabs
+			if currentindex is equal to 1 then
+				move tab currentindex to after tab totalTabs
+				set current tab to tab totalTabs
+			else
+				move tab currentindex to before tab (currentindex - 1)
+				set current tab to tab (currentindex - 1)
+			end if
+		end tell
 	end if
 end tell
